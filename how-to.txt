@@ -1,0 +1,22 @@
+docker exec -it ab20aa421af5 python manage.py createsuperuser
+
+minikube start --nodes 3
+
+docker buildx build -t django-app:latest .
+docker buildx build -t django-proxy:latest proxy/
+
+minikube image load django-app:latest
+minikube image load django-proxy:latest
+
+# To list docker images 
+docker images 
+
+
+minikube image ls 
+
+kubectl exec -it  django-787d8f77df-qbrsf -c app -- python manage.py createsuperuser
+
+kubectl port-forward --address 0.0.0.0 service/django 8888:8000
+
+
+https://medium.com/@haroldfinch01/how-to-use-local-docker-images-with-minikube-5d7facb1cffe
